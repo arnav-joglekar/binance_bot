@@ -104,6 +104,3 @@ python main.py grid --symbol BTCUSDT --lower-price 80000 --upper-price 90000 --l
 - `static/`: CSS and JS for Web UI.
 - `bot.log`: Application logs.
 
-## License
-
-This project is for educational purposes. Trade at your own risk.
