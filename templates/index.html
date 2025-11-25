@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binance Trading Bot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Binance Trading Bot</h1>
+            <div class="status-badge">Spot Testnet</div>
+        </header>
+
+        <main>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab(event, 'market')">Market</button>
+                <button class="tab-btn" onclick="openTab(event, 'limit')">Limit</button>
+                <button class="tab-btn" onclick="openTab(event, 'oco')">OCO</button>
+                <button class="tab-btn" onclick="openTab(event, 'stop-limit')">Stop-Limit</button>
+                <button class="tab-btn" onclick="openTab(event, 'twap')">TWAP</button>
+                <button class="tab-btn" onclick="openTab(event, 'grid')">Grid</button>
+            </div>
+
+            <div id="market" class="tab-content active">
+                <h2>Market Order</h2>
+                <form onsubmit="placeOrder(event, 'market')">
+                    <div class="form-group">
+                        <label>Symbol</label>
+                        <input type="text" name="symbol" value="BTCUSDT" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Side</label>
+                        <select name="side">
+                            <option value="BUY">BUY</option>
+                            <option value="SELL">SELL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" step="0.00001" name="quantity" value="0.001" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Place Order</button>
+                </form>
+            </div>
+
+            <div id="limit" class="tab-content">
+                <h2>Limit Order</h2>
+                <form onsubmit="placeOrder(event, 'limit')">
+                    <div class="form-group">
+                        <label>Symbol</label>
+                        <input type="text" name="symbol" value="BTCUSDT" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Side</label>
+                        <select name="side">
+                            <option value="BUY">BUY</option>
+                            <option value="SELL">SELL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" step="0.00001" name="quantity" value="0.001" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" step="0.01" name="price" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Place Order</button>
+                </form>
+            </div>
+
+            <div id="oco" class="tab-content">
+                <h2>OCO Order</h2>
+                <form onsubmit="placeOrder(event, 'oco')">
+                    <div class="form-group">
+                        <label>Symbol</label>
+                        <input type="text" name="symbol" value="BTCUSDT" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Side</label>
+                        <select name="side">
+                            <option value="BUY">BUY</option>
+                            <option value="SELL">SELL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" step="0.00001" name="quantity" value="0.001" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Take Profit Price</label>
+                        <input type="number" step="0.01" name="takeProfitPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Stop Loss Price</label>
+                        <input type="number" step="0.01" name="stopPrice" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Place Order</button>
+                </form>
+            </div>
+
+            <div id="stop-limit" class="tab-content">
+                <h2>Stop-Limit Order</h2>
+                <form onsubmit="placeOrder(event, 'stop-limit')">
+                    <div class="form-group">
+                        <label>Symbol</label>
+                        <input type="text" name="symbol" value="BTCUSDT" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Side</label>
+                        <select name="side">
+                            <option value="BUY">BUY</option>
+                            <option value="SELL">SELL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" step="0.00001" name="quantity" value="0.001" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Limit Price</label>
+                        <input type="number" step="0.01" name="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Stop Price</label>
+                        <input type="number" step="0.01" name="stopPrice" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Place Order</button>
+                </form>
+            </div>
+
+            <div id="twap" class="tab-content">
+                <h2>TWAP Strategy</h2>
+                <form onsubmit="placeOrder(event, 'twap')">
+                    <div class="form-group">
+                        <label>Symbol</label>
+                        <input type="text" name="symbol" value="BTCUSDT" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Side</label>
+                        <select name="side">
+                            <option value="BUY">BUY</option>
+                            <option value="SELL">SELL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Quantity</label>
+                        <input type="number" step="0.00001" name="totalQuantity" value="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (Minutes)</label>
+                        <input type="number" name="duration" value="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Orders</label>
+                        <input type="number" name="orders" value="5" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Start Strategy</button>
+                </form>
+            </div>
+
+            <div id="grid" class="tab-content">
+                <h2>Grid Strategy</h2>
+                <form onsubmit="placeOrder(event, 'grid')">
+                    <div class="form-group">
+                        <label>Symbol</label>
+                        <input type="text" name="symbol" value="BTCUSDT" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Lower Price</label>
+                        <input type="number" step="0.01" name="lowerPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Upper Price</label>
+                        <input type="number" step="0.01" name="upperPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Levels</label>
+                        <input type="number" name="levels" value="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity Per Grid</label>
+                        <input type="number" step="0.00001" name="quantityPerGrid" value="0.001" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Start Strategy</button>
+                </form>
+            </div>
+
+            <div class="output-area">
+                <h3>Output</h3>
+                <pre id="output">Ready...</pre>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
